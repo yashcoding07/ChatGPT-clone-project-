@@ -1,10 +1,57 @@
-const { Server, Socket } = require("socket.io");
+const { Server } = require("socket.io");
+const cookie = require("cookie");
+const jwt = require("jsonwebtoken");
+const userModel = require("../models/user.model");
+const aiService = require("../services/Ai.service");
+// const messageModel = require("../models/message.model");
 
 function initSocketServer(httpServer){
     const io = new Server(httpServer, {})
 
-    io.on("connection", (Socket) => {
-        console.log("New socket connection", Socket.id)
+    io.use(async (socket, next) => {
+        const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
+
+        if(!cookies.token){
+            return next(new Error("Authentication error: No Token provided."));
+        }
+
+        try {
+            const decoded = jwt.verify(cookies.token, process.env.JWT_SECRET);
+            const user = await userModel.findById(decoded.id);
+            if (!user) {
+                return next(new Error("Authentication error: User not found."));
+            }
+            socket.user = user;
+            next();
+        } catch (error) {
+            next(new Error("Authentication error: invalid token."));
+        };
+    });
+
+    io.on("connection", (socket) => {
+        socket.on("ai-message", async (messagePayload)=>{
+            
+            // await messageModel.create({
+            //     chat: messagePayload.chat,
+            //     user: socket.user._id,
+            //     message: messagePayload.content,
+            //     role: "user"
+            // });
+
+            const response = await aiService.GenerateResponse(messagePayload.content);
+
+            // await messageModel.create({
+            //     chat: messagePayload.chat,
+            //     user: socket.user._id,
+            //     message: response,
+            //     role: "model"
+            // });
+
+            socket.emit("ai-response", {
+                content: response,
+                chat: messagePayload.chat 
+            });
+        });
     });
 };
 

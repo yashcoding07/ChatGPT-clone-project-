@@ -1,13 +1,13 @@
-import { GoogleGenAI } from "@google/genai";
+const { GoogleGenAI } = require("@google/genai");
 
 const ai = new GoogleGenAI({});
 
-async function GenerateContent(contents){
+async function GenerateResponse(content){
    const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: contents,
+    model: "gemini-2.0-flash",
+    contents: content,
   }); 
   console.log(response.text);
 }
 
-module.exports = GenerateContent;
+module.exports = {GenerateResponse};
