@@ -9,7 +9,7 @@ const messageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "chat"
     },
-    message: {
+    content: {
         type: String,
         required: true
     },
@@ -25,4 +25,3 @@ const messageSchema = new mongoose.Schema({
 const messageModel = mongoose.model("message", messageSchema);
 
 module.exports = messageModel;
-
