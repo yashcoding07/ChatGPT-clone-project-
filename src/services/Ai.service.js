@@ -19,7 +19,7 @@ async function GenerateVector(content){
     }
   })
 
-  return response.embeddings
+  return response.embeddings[0].values
 }
 
 module.exports = {GenerateResponse, GenerateVector};
