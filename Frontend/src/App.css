@@ -1,0 +1,98 @@
+/* ------------- THEME VARIABLES ------------- */
+:root {
+  /* Colors */
+  --bg: #ffffff;
+  --text: #111111;
+  --card-bg: #f5f5f5;
+  --border: #dcdcdc;
+
+  /* Buttons */
+  --btn-bg: #111111;
+  --btn-text: #ffffff;
+
+  /* Chat bubbles */
+  --user-msg-bg: #e5e5e5;
+  --bot-msg-bg: #111111;
+  --bot-msg-text: #ffffff;
+
+  /* Layout */
+  --radius: 10px;
+  --transition: 0.2s ease-in-out;
+}
+
+/* ------------- DARK THEME ------------- */
+.dark {
+  --bg: #121212;
+  --text: #e6e6e6;
+  --card-bg: #1f1f1f;
+  --border: #2e2e2e;
+
+  --btn-bg: #e6e6e6;
+  --btn-text: #121212;
+
+  --user-msg-bg: #2a2a2a;
+  --bot-msg-bg: #10a37f;
+  --bot-msg-text: #ffffff;
+}
+
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+}
+
+/* Shared containers */
+.page {
+  width: 90%;
+  max-width: 450px;
+  margin: auto;
+  padding: 20px 0;
+}
+
+/* Input styling */
+.input-field {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text);
+  margin-bottom: 14px;
+  font-size: 16px;
+  transition: var(--transition);
+}
+.input-field:focus {
+  outline: none;
+  border-color: var(--text);
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* Links */
+a {
+  color: var(--text);
+  text-decoration: underline;
+}
