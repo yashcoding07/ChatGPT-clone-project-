@@ -1,31 +1,64 @@
-import React from "react";
-import "../Styles/home.css"
+import { useState } from "react";
+import "../styles/home.css";
+import ThemeToggle from "../Components/Themetoggle";
+import Sidebar from "../Components/Sidebar";
+import SidebarToggle from "../Components/Sidebartoggle";
+import { Menu } from "lucide-react";
+import ChatWindow from "../Components/ChatWindow";
+import ChatInput from "../Components/ChatInput";
+import axios from "axios";
 
 const Home = () => {
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [userMsg, setUserMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function sendMessage(e) {
+    e.preventDefault();
+    if (!userMsg.trim()) return;
+
+    const userMessage = { sender: "user", text: userMsg };
+    setMessages((prev) => [...prev, userMessage]);
+    setUserMsg("");
+    setLoading(true);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/ai/chat",
+        { message: userMsg },
+        { withCredentials: true }
+      );
+
+      const botMessage = { sender: "ai", text: res.data.reply };
+      setMessages((prev) => [...prev, botMessage]);
+    } catch {
+      setMessages((prev) => [...prev, { sender: "ai", text: "Error fetching response" }]);
+    }
+
+    setLoading(false);
+  }
+
   return (
-    <div className="home-page">
-      <header className="top-bar">
-        <h2>ChatGPT Clone</h2>
-      </header>
+    <div className="home-container">
+      <ThemeToggle />
 
-      <div className="chat-container">
-        <div className="messages">
-          {/* Placeholder messages */}
-          <div className="message user-msg">Hello, ChatGPT!</div>
-          <div className="message bot-msg">
-            Hi! How can I assist you today?
-          </div>
-        </div>
+      {/* MENU BUTTON (only when sidebar is closed) */}
+      {!showSidebar && (
+        <button
+          className="menu-btn"
+          onClick={() => setShowSidebar(true)}
+        >
+          <Menu size={22} />
+        </button>
+      )}
 
-        <div className="input-area">
-          <input
-            type="text"
-            className="chat-input"
-            placeholder="Type your message..."
-          />
-          <button className="send-btn">Send</button>
-        </div>
-      </div>
+      <Sidebar open={showSidebar} closeSidebar={() => setShowSidebar(false)} />
+
+      <main className="chat-area">
+        <ChatWindow messages={messages} loading={loading} />
+        <ChatInput userMsg={userMsg} setUserMsg={setUserMsg} sendMessage={sendMessage} />
+      </main>
     </div>
   );
 };
