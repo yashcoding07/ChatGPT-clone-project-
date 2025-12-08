@@ -1,13 +1,29 @@
-const ChatInput = ({ userMsg, setUserMsg, sendMessage }) => {
+import { useState } from "react";
+import { Send } from "lucide-react";
+
+const ChatInput = ({ onSend, disabled }) => {
+  const [userMsg, setUserMsg] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!userMsg.trim() || disabled) return;
+
+    onSend(userMsg);
+    setUserMsg("");
+  };
+
   return (
-    <form className="chat-input" onSubmit={sendMessage}>
+    <form className="chat-input" onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Send a message..."
+        placeholder="Ask anything..."
         value={userMsg}
         onChange={(e) => setUserMsg(e.target.value)}
+        disabled={disabled}
       />
-      <button type="submit">➤</button>
+      <button type="submit" disabled={disabled || !userMsg.trim()}>
+        <Send size={20} />
+      </button>
     </form>
   );
 };
