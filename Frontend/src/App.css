@@ -1,14 +1,18 @@
 :root {
-  --bg: #f7f7f8;
+  --bg: #efefef;
   --text: #111;
   --card-bg: rgba(255, 255, 255, 0.7);
   --card-blur: blur(16px);
   --border: rgba(0, 0, 0, 0.15);
 
   --input-bg: rgba(255, 255, 255, 0.5);
+  --sidetoggle-btn: rgb(225, 225, 225);
 
   --btn-bg: #111;
   --btn-text: #fff;
+  --send-btn: black;
+  --sidebar-bg: rgb(237, 237, 237);
+
 
   --radius: 14px;
   --transition: 0.25s ease;
@@ -18,10 +22,12 @@
 .dark {
   --bg: #0f0f0f;
   --text: #e7e7e8;
+  --sidebar-bg: rgb(32, 32, 32);
 
+  --sidetoggle-btn: rgb(88, 88, 88);
   --card-bg: rgba(25, 25, 25, 0.6);
   --input-bg: rgba(40, 40, 40, 0.6);
-
+  --send-btn: white;
   --border: rgba(255, 255, 255, 0.15);
 
   --btn-bg: #e7e7e8;
